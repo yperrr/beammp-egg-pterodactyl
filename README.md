@@ -23,6 +23,10 @@ Ces valeurs sont réécrites dans `ServerConfig.toml` à chaque démarrage. Le p
 
 L'egg utilise l'image `ghcr.io/yperrr/pterodactyl-beammp-egg:latest`, construite depuis le dossier [`docker/`](docker/) (Debian 12, Lua 5.3, OpenSSL 3) :
 
+L'image est construite et publiée automatiquement par GitHub Actions ([`.github/workflows/docker.yml`](.github/workflows/docker.yml)) pour `amd64` et `arm64` : à chaque modification de `docker/`, chaque lundi (correctifs de sécurité Debian), ou à la demande depuis l'onglet *Actions*. Tags publiés : `latest`, la date (`AAAA-MM-JJ`) et `sha-<commit>`.
+
+Construction manuelle si besoin :
+
 ```bash
 docker build -t ghcr.io/yperrr/pterodactyl-beammp-egg:latest docker/
 docker push ghcr.io/yperrr/pterodactyl-beammp-egg:latest
