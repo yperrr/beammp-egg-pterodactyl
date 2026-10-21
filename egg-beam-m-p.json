@@ -4,83 +4,53 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2022-11-12T05:23:43+01:00",
+    "exported_at": "2026-10-21T13:01:00+00:00",
     "name": "BeamMP",
     "author": "leogauthier26@gmail.com",
-    "description": "BeamMP Server",
+    "description": "BeamMP multiplayer server for BeamNG.drive (https://beammp.com). Requires an authentication key from https://keymaster.beammp.com.",
     "features": null,
     "docker_images": {
-        "ghcr.io\/yperrr\/pterodactyl-beammp-egg:latest": "ghcr.io\/yperrr\/pterodactyl-beammp-egg:latest"
+        "BeamMP (Debian 12)": "ghcr.io/yperrr/pterodactyl-beammp-egg:latest"
     },
     "file_denylist": [],
-    "startup": ".\/BeamMP-Server",
+    "startup": "./BeamMP-Server",
     "config": {
-        "files": "{\r\n    \"ServerConfig.toml\": {\r\n        \"parser\": \"ini\",\r\n        \"find\": {\r\n            \"General.AuthKey\": \"\\\"{{env.AUTH}}\\\"\",\r\n            \"General.Description\": \"\\\"{{env.DESCRIPTION}}\\\"\",\r\n            \"General.Debug\": \"{{env.DEBUG}}\",\r\n            \"General.Private\": \"{{env.PRIVATE}}\",\r\n            \"General.Port\": \"{{server.build.default.port}}\",\r\n            \"General.MaxCars\": \"{{env.MAXCARS}}\",\r\n            \"General.MaxPlayers\": \"{{env.MAXPLAYERS}}\",\r\n            \"General.Map\": \"\\\"{{env.MAP}}\\\"\",\r\n            \"General.Name\": \"\\\"{{env.NAME}}\\\"\",\r\n            \"General.ResourceFolder\": \"\\\"{{env.RESOURCEFOLDER}}\\\"\",\r\n            \"General.LogChat\": \"{{env.LOGCHAT}}\",\r\n            \"Misc.ImScaredOfUpdates\": \"{{env.IMSCAREDOFUPDATES}}\",\r\n            \"Misc.SendErrorsShowMessage\": \"{{env.SENDERRORSSHOWMESSAGE}}\",\r\n            \"Misc.SendErrors\": \"{{env.SENDERRORS}}\",\r\n            \"HTTP.HTTPServerIP\": \"\\\"{{env.HTTPSERVERIP}}\\\"\",\r\n            \"HTTP.UseSSL\": \"{{env.USESSL}}\",\r\n            \"HTTP.SSLKeyPath\": \"\\\"{{env.SSLKEYPATH}}\\\"\",\r\n            \"HTTP.SSLCertPath\": \"\\\"{{env.SSLCERTPATH}}\\\"\",\r\n            \"HTTP.HTTPServerPort\": \"{{env.HTTPSERVERPORT}}\",\r\n            \"HTTP.HTTPServerEnabled\": \"{{env.HTTPSERVERENABLED}}\"\r\n        }\r\n    }\r\n}",
-        "startup": "{\r\n    \"done\": \"Vehicle event network online\"\r\n}",
+        "files": "{\n    \"ServerConfig.toml\": {\n        \"parser\": \"ini\",\n        \"find\": {\n            \"General.Port\": \"{{server.build.default.port}}\",\n            \"General.AuthKey\": \"\\\"{{env.AUTH}}\\\"\",\n            \"General.Name\": \"\\\"{{env.NAME}}\\\"\",\n            \"General.Description\": \"\\\"{{env.DESCRIPTION}}\\\"\",\n            \"General.Map\": \"\\\"{{env.MAP}}\\\"\",\n            \"General.MaxPlayers\": \"{{env.MAXPLAYERS}}\",\n            \"General.MaxCars\": \"{{env.MAXCARS}}\",\n            \"General.Private\": \"{{env.PRIVATE}}\",\n            \"General.Tags\": \"\\\"{{env.TAGS}}\\\"\",\n            \"General.AllowGuests\": \"{{env.ALLOWGUESTS}}\",\n            \"General.LogChat\": \"{{env.LOGCHAT}}\",\n            \"General.Debug\": \"{{env.DEBUG}}\"\n        }\n    }\n}",
+        "startup": "{\n    \"done\": \"ALL SYSTEMS STARTED SUCCESSFULLY\"\n}",
         "logs": "{}",
         "stop": "exit"
     },
     "scripts": {
         "installation": {
-            "script": "#!\/bin\/bash\r\n\r\n# Install wget and unzip\r\napt -y update && apt -y install wget unzip\r\n\r\n# Move to server directory\r\nmkdir \/mnt\/server\r\ncd \/mnt\/server\r\n\r\n# Default config\r\necho '\r\n# This is the BeamMP-Server config file.\r\n# Help & Documentation: `https:\/\/wiki.beammp.com\/en\/home\/server-maintenance`\r\n# IMPORTANT: Fill in the AuthKey with the key you got from `https:\/\/beammp.com\/k\/dashboard` on the left under \"Keys\"\r\n\r\n[General]\r\nName = \"BeamMP Server\"\r\nPort = 30814\r\n# AuthKey has to be filled out in order to run the server\r\nAuthKey = \"\"\r\n# Whether to log chat messages in the console \/ log\r\nLogChat = true\r\nDebug = false\r\nPrivate = true\r\nMaxCars = 1\r\nMaxPlayers = 8\r\nMap = \"\/levels\/gridmap_v2\/info.json\"\r\nDescription = \"BeamMP Default Description\"\r\nResourceFolder = \"Resources\"\r\n\r\n[Misc]\r\n# Hides the periodic update message which notifies you of a new server version. You should really keep this on and always update as soon as possible. For more information visit https:\/\/wiki.beammp.com\/en\/home\/server-maintenance#updating-the-server. An update message will always appear at startup regardless.\r\nImScaredOfUpdates = false\r\n# If SendErrors is `true`, the server will send helpful info about crashes and other issues back to the BeamMP developers. This info may include your config, who is on your server at the time of the error, and similar general information. This kind of data is vital in helping us diagnose and fix issues faster. This has no impact on server performance. You can opt-out of this system by setting this to `false`\r\nSendErrorsShowMessage = true\r\n# You can turn on\/off the SendErrors message you get on startup here\r\nSendErrors = true\r\n\r\n[HTTP]\r\n# Which IP to listen on. Pick 0.0.0.0 for a public-facing server with no specific IP, and 127.0.0.1 or 'localhost' for a local server.\r\nHTTPServerIP = \"127.0.0.1\"\r\nSSLKeyPath = \".\/.ssl\/HttpServer\/key.pem\"\r\nSSLCertPath = \".\/.ssl\/HttpServer\/cert.pem\"\r\nHTTPServerPort = 8080\r\n# Recommended to have enabled for servers which face the internet. With SSL the server will serve https and requires valid key and cert files\r\nUseSSL = false\r\n# Enables the internal HTTP server\r\nHTTPServerEnabled = false\r\n' >> ServerConfig.toml\r\n\r\nwget https:\/\/github.com\/BeamMP\/BeamMP-Server\/releases\/latest\/download\/BeamMP-Server-linux\r\nmv BeamMP-Server-linux BeamMP-Server\r\nchmod +x BeamMP-Server",
-            "container": "ubuntu:20.04",
+            "script": "#!/bin/bash\n# BeamMP server installation (runs in the Debian installer container).\n# Downloads the BeamMP-Server binary matching the runtime image (Debian 12)\n# and creates a default ServerConfig.toml only if none exists, so that a\n# reinstall updates the server without touching its config or resources.\nset -euo pipefail\n\ncd /mnt/server\n\ncase \"$(uname -m)\" in\n    aarch64) ARCH=arm64 ;;\n    *)       ARCH=x86_64 ;;\nesac\nASSET=\"BeamMP-Server.debian.12.${ARCH}\"\n\nif [ \"${VERSION:-latest}\" = \"latest\" ]; then\n    URL=\"https://github.com/BeamMP/BeamMP-Server/releases/latest/download/${ASSET}\"\nelse\n    URL=\"https://github.com/BeamMP/BeamMP-Server/releases/download/${VERSION}/${ASSET}\"\nfi\n\necho \"Downloading ${URL}\"\ncurl -fsSL -o BeamMP-Server.new \"${URL}\"\nchmod +x BeamMP-Server.new\nmv -f BeamMP-Server.new BeamMP-Server\n\nmkdir -p Resources/Client Resources/Server\n\nif [ ! -f ServerConfig.toml ]; then\n    cat > ServerConfig.toml <<'EOF'\n# BeamMP-Server config file. Most values are managed from the panel's\n# Startup tab and rewritten on every start.\n# Documentation: https://docs.beammp.com/server/server-maintenance/\n\n[General]\nName = \"BeamMP Server\"\nDescription = \"BeamMP Server\"\nPort = 30814\nAuthKey = \"\"\nPrivate = true\nMaxCars = 1\nMaxPlayers = 8\nMap = \"/levels/gridmap_v2/info.json\"\nTags = \"Freeroam\"\nAllowGuests = true\nLogChat = true\nDebug = false\nResourceFolder = \"Resources\"\nIP = \"::\"\nInformationPacket = true\n\n[Misc]\nImScaredOfUpdates = false\nUpdateReminderTime = \"30d\"\nEOF\nfi\n\necho \"BeamMP server installed.\"\n",
+            "container": "ghcr.io/ptero-eggs/installers:debian",
             "entrypoint": "bash"
         }
     },
     "variables": [
         {
-            "name": "Max cars",
-            "description": "Maximum amount of cars per player.\r\nValue must be at least 1.",
-            "env_variable": "MAXCARS",
-            "default_value": "1",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|int|min:1",
-            "field_type": "text"
-        },
-        {
-            "name": "Max players",
-            "description": "Maximum amount of players that can join the server.\r\nValue must be at least 1.",
-            "env_variable": "MAXPLAYERS",
-            "default_value": "20",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|int|min:1",
-            "field_type": "text"
-        },
-        {
-            "name": "Map",
-            "description": "Which map the server will use. Must restart the server to change this value.\r\nSee reference for a list of maps: https:\/\/wiki.beammp.com\/en\/home\/server-maintenance",
-            "env_variable": "MAP",
-            "default_value": "\/levels\/gridmap_v2\/info.json",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|string",
-            "field_type": "text"
-        },
-        {
-            "name": "Name",
-            "description": "The name of your BeamMP server (will show on the public list if you didn't set private to true).",
+            "name": "Server Name",
+            "description": "Name shown in the BeamMP server list.",
             "env_variable": "NAME",
             "default_value": "BeamMP Server",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|string",
+            "rules": "required|string|max:64",
             "field_type": "text"
         },
         {
             "name": "Description",
-            "description": "The description of your BeamMP server (will show on the public list if you didn't set private to true).",
+            "description": "Description shown in the BeamMP server list.",
             "env_variable": "DESCRIPTION",
-            "default_value": "BeamMP Server Description",
+            "default_value": "BeamMP Server",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|string",
+            "rules": "required|string|max:256",
             "field_type": "text"
         },
         {
             "name": "Authentication Key",
-            "description": "Your BeamMP Server authentication key. \r\nGet one here: https:\/\/beammp.com\/keymaster\r\nValue is a string of max 36 char length.",
+            "description": "Server key from https://keymaster.beammp.com (Keys tab). Required to start.",
             "env_variable": "AUTH",
             "default_value": "",
             "user_viewable": true,
@@ -89,38 +59,68 @@
             "field_type": "text"
         },
         {
-            "name": "Private",
-            "description": "Is this a private server? Private servers will not show up on the server list.\r\nValue can either be true or false.",
-            "env_variable": "PRIVATE",
-            "default_value": "false",
+            "name": "Map",
+            "description": "Map path, e.g. /levels/gridmap_v2/info.json, /levels/west_coast_usa/info.json, /levels/italy/info.json.",
+            "env_variable": "MAP",
+            "default_value": "/levels/gridmap_v2/info.json",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|string|in:true,false",
-            "field_type": "text"
-        },
-        {
-            "name": "Debug mode",
-            "description": "Run the server in debug mode? \r\nValue can either be true or false.",
-            "env_variable": "DEBUG",
-            "default_value": "false",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|string|in:true,false",
-            "field_type": "text"
-        },
-        {
-            "name": "Resource",
-            "description": "Resource folder location (full or relative path).\r\nValue is a string of max 128 char length.",
-            "env_variable": "RESOURCEFOLDER",
-            "default_value": "Resources",
-            "user_viewable": true,
-            "user_editable": false,
             "rules": "required|string|max:128",
             "field_type": "text"
         },
         {
-            "name": "Log the chat",
-            "description": "Whether or not you want to log chat messages in the console \/ log.\r\nValue can either be true or false.",
+            "name": "Max Players",
+            "description": "Maximum number of players.",
+            "env_variable": "MAXPLAYERS",
+            "default_value": "8",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|integer|min:1|max:100",
+            "field_type": "text"
+        },
+        {
+            "name": "Max Cars",
+            "description": "Maximum number of vehicles per player.",
+            "env_variable": "MAXCARS",
+            "default_value": "1",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|integer|min:1|max:50",
+            "field_type": "text"
+        },
+        {
+            "name": "Private",
+            "description": "true hides the server from the public server list.",
+            "env_variable": "PRIVATE",
+            "default_value": "true",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|in:true,false",
+            "field_type": "text"
+        },
+        {
+            "name": "Tags",
+            "description": "Comma-separated tags shown in the server list, e.g. Freeroam,Racing.",
+            "env_variable": "TAGS",
+            "default_value": "Freeroam",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:128",
+            "field_type": "text"
+        },
+        {
+            "name": "Allow Guests",
+            "description": "Allow players without a BeamMP account.",
+            "env_variable": "ALLOWGUESTS",
+            "default_value": "true",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|in:true,false",
+            "field_type": "text"
+        },
+        {
+            "name": "Log Chat",
+            "description": "Write chat messages to the console and log.",
             "env_variable": "LOGCHAT",
             "default_value": "true",
             "user_viewable": true,
@@ -129,9 +129,9 @@
             "field_type": "text"
         },
         {
-            "name": "Hide update notifications",
-            "description": "Hides the periodic update message which notifies you of a new server version.\r\nValue can either be true or false.",
-            "env_variable": "IMSCAREDOFUPDATES",
+            "name": "Debug",
+            "description": "Verbose logging.",
+            "env_variable": "DEBUG",
             "default_value": "false",
             "user_viewable": true,
             "user_editable": true,
@@ -139,83 +139,13 @@
             "field_type": "text"
         },
         {
-            "name": "Show errors on crash",
-            "description": "If set to true, the server will send helpful info about crashes and other issues back to the BeamMP developers. This info may include your config, who is on your server at the time of the error, and similar general information. This kind of data is vital in helping us diagnose and fix issues faster. This has no impact on server performance. You can opt-out of this system by setting this to false.",
-            "env_variable": "SENDERRORSSHOWMESSAGE",
-            "default_value": "true",
+            "name": "Server Version",
+            "description": "BeamMP-Server release installed on (re)install: latest, or a tag such as v3.9.3.",
+            "env_variable": "VERSION",
+            "default_value": "latest",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|string|in:true,false",
-            "field_type": "text"
-        },
-        {
-            "name": "Show errors on startup",
-            "description": "You can turn on\/off the SendErrors message you get on server startup here.\r\nValue can either be true or false.",
-            "env_variable": "SENDERRORS",
-            "default_value": "true",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|string|in:true,false",
-            "field_type": "text"
-        },
-        {
-            "name": "HTTP Server IP",
-            "description": "Which IP to listen on. Pick 0.0.0.0 for a public-facing server with no specific IP, and 127.0.0.1 or 'localhost' for a local server.\r\nValue must be a valid IPv4 (ex: 192.168.1.1).",
-            "env_variable": "HTTPSERVERIP",
-            "default_value": "0.0.0.0",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|ipv4",
-            "field_type": "text"
-        },
-        {
-            "name": "Use SSL",
-            "description": "Recommended to have enabled for servers which face the internet. With SSL the server will serve https and requires valid key and cert files.\r\nValue can either be true or false.",
-            "env_variable": "USESSL",
-            "default_value": "false",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|string|in:true,false",
-            "field_type": "text"
-        },
-        {
-            "name": "SSL Key Path",
-            "description": "The full path to your SSL key (if you enabled SSL).\r\nValue is a string of max 128 char length.",
-            "env_variable": "SSLKEYPATH",
-            "default_value": ".\/.ssl\/HttpServer\/key.pem",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|string|max:128",
-            "field_type": "text"
-        },
-        {
-            "name": "SSLCertPath",
-            "description": "The full path to your SSL cert (if you enabled SSL).\r\nValue is a string of max 128 char length.",
-            "env_variable": "SSLCERTPATH",
-            "default_value": ".\/.ssl\/HttpServer\/cert.pem",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|string|max:128",
-            "field_type": "text"
-        },
-        {
-            "name": "HTTP Server Port",
-            "description": "The port to the internal HTTP server.\r\nValue must be a valid port (between 1 and 65535).",
-            "env_variable": "HTTPSERVERPORT",
-            "default_value": "8080",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|int|min:1|max:65535",
-            "field_type": "text"
-        },
-        {
-            "name": "HTTP Server Enabled",
-            "description": "Enables the internal HTTP server.\r\nValue can either be true or false.",
-            "env_variable": "HTTPSERVERENABLED",
-            "default_value": "false",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|string|in:true,false",
+            "rules": "required|string|max:20",
             "field_type": "text"
         }
     ]
