@@ -10,7 +10,7 @@
     "description": "BeamMP multiplayer server for BeamNG.drive (https://beammp.com). Requires an authentication key from https://keymaster.beammp.com.",
     "features": null,
     "docker_images": {
-        "BeamMP (Debian 12)": "ghcr.io/yperrr/pterodactyl-beammp-egg:latest"
+        "BeamMP": "ghcr.io/yperrr/pterodactyl-beammp-egg:latest"
     },
     "file_denylist": [],
     "startup": "./BeamMP-Server",
