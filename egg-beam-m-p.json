@@ -10,7 +10,7 @@
     "description": "BeamMP Server",
     "features": null,
     "docker_images": {
-        "ghcr.io\/cnsabata\/pterodactyl-beammp-egg:latest": "ghcr.io\/cnsabata\/pterodactyl-beammp-egg:latest"
+        "ghcr.io\/yperrr\/pterodactyl-beammp-egg:latest": "ghcr.io\/yperrr\/pterodactyl-beammp-egg:latest"
     },
     "file_denylist": [],
     "startup": ".\/BeamMP-Server",
